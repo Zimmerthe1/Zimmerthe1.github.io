@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
     <meta charset="UTF-8">
-    <title>Explore</title>
+    <title>Superreiser</title>
     <style>
 
         * {
@@ -15,7 +15,7 @@
         
         body {
             min-height: 100vh;
-            background-image:
+            background-image: url("Bilder/Reise_001.jpg");
             background-size: cover;
             background-position: center center;
             transition: 1s;
@@ -27,7 +27,6 @@
             opacity: 0.7;
             height: 4rem;
             background-color: black;
-
         }
 
         #meny {
@@ -41,6 +40,20 @@
             transition: 0.4s;
 
         }
+
+        nav a p{
+            font-size: 1.87rem;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+
+        }
+
+        a{
+            text-decoration: none;
+        }
+
+
 
         #menyAvPaa {
             display: none;
@@ -97,11 +110,25 @@
         <div></div>
         <div></div>
     </label>
-    <nav id="meny"></nav>
+    <nav id="meny">
+        <a href="Reiser.html"><p>Bestill reise</p></a>
+    </nav>
 
 
     <script>
         let bilder = [
+            "Bilder/Reise_001.jpg",
+            "Bilder/Reise_002.jpg",
+            "Bilder/Reise_003.jpg",
+            "Bilder/Reise_004.jpg",
+            "Bilder/Reise_005.jpg",
+            "Bilder/Reise_006.jpg",
+            "Bilder/Reise_007.jpg",
+            "Bilder/Reise_008.jpg",
+            "Bilder/Nada.jpg",     
+            "Bilder/troper.jpg",   
+            "Bilder/turtle.jpg",   
+            "Bilder/beach.jpg"     
 
         ];
 
@@ -119,7 +146,7 @@
 
        setInterval(ByttBilde, 2000);
 
-        <img src="../Bilder/beach.jpg" height="768" width="1024"/>
+    </script>
 
 
 

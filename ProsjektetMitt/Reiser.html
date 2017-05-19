@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Reiser</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation-flex.min.css">
+    <style>
+
+        body {
+            min-height: 100vh;
+            background-image: url("Bilder/troper.jpg");
+            background-size: cover;
+            background-position: bottom left;
+        }
+
+
+        main{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            grid-gap: 10px;
+        }
+
+        main > article > img{
+            width: 100%;
+        }
+
+        header {
+            opacity: 0.7;
+            height: 4rem;
+            background-color: black;
+        }
+
+        header > nav{
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            height: 50px;
+
+        }
+
+        header > nav > button {
+            color: white;
+            padding: 1.38rem;
+            font-size: 1.25rem;
+            transition:0.5s;
+        }
+
+        header > nav > button:hover{
+            background-color: lightseagreen;
+        }
+
+
+
+        h1{
+            font-size: 1.25rem;
+            color: black;
+        }
+
+        @media (max-width: 1100px) {
+            main{
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 900px) {
+            main{
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+            main{
+                grid-template-columns: 1fr;
+            }
+
+            header > nav {
+                grid-template-columns: 1fr;
+            }
+
+            header > nav > .button{
+                margin-bottom: 1px;
+            }
+
+        }
+
+    </style>
+
+
+
+</head>
+<body>
+
+    <header>
+        <nav>
+            <button onclick="visAlleReiser()">Alle Reiser</button>
+            <button onclick="visAmerika()">Amerika</button>
+            <button onclick="visEuropa()">Europa</button>
+            <button onclick="visMidtosten()">Midtøsten</button>
+            <button id="btnKurv">Reiser(<b id="antallVarer">0</b>)</button>
+            <button onclick="tom()">Tøm Reiser</button>
+        </nav>
+    </header>
+
+    <main></main>
+
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyB7sD72ue2LRaXP4EhL3kOXaoKD02x1-Ls",
+            authDomain: "reiser-c42c6.firebaseapp.com",
+            databaseURL: "https://reiser-c42c6.firebaseio.com",
+            projectId: "reiser-c42c6",
+            storageBucket: "reiser-c42c6.appspot.com",
+            messagingSenderId: "1081986412110"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+
+
+    <script>
+        let db = firebase.database();
+        let Amerika = db.ref("Reiser/Amerika");
+        let Europa = db.ref("Reiser/Europa");
+        let Midtosten = db.ref("Reiser/Midtosten");
+        let bestillinger = db.ref("bestillinger");
+
+        let main = document.querySelector("main");
+        let Reiser = document.getElementById("Reiser");
+        let btnKurv = document.getElementById("btnKurv");
+
+
+        function tom() {
+            bestillinger.remove();
+        }
+
+
+        function visAntall(snap) {
+            antallVarer.innerHTML= snap.numChildren();
+        }
+
+        bestillinger.on("value", visAntall);
+
+        function visReise(snap) {
+            let reise = snap.val();
+            let parent = snap.ref.parent;
+            let key = snap.key;
+            let vareReferanse = parent + "/" + key;
+
+            main.innerHTML += `
+                <article>
+                    <img src="Bilder/${reise.bilde}.jpg">
+                    <h1>${reise.Sted} ${reise.Type}</h1>
+                    <button onclick="kjopVare('${vareReferanse}')" class="button">Bestill reise</button>
+                </article>
+            `;
+        }
+
+        function kjopVare(ref) {
+            bestillinger.push({
+                vare: ref,
+                antall: 1,
+                tid: firebase.database.ServerValue.TIMESTAMP
+            });
+
+
+            btnKurv.animate([
+                {transform: "scale(1)"},
+                {transform: "scale(1.2)"},
+                {transform: "scale(1)"}
+            ], {
+                duration: 300
+            });
+        }
+
+        function visAmerika() {
+            main.innerHTML = "";
+            Amerika.on("child_added", visReise)
+        }
+
+        function visEuropa() {
+            main.innerHTML = "";
+            Europa.on("child_added", visReise)
+        }
+
+        function visMidtosten() {
+            main.innerHTML = "";
+            Midtosten.on("child_added", visReise)
+        }
+
+
+        function visAlleReiser() {
+            main.innerHTML = "";
+            Amerika.on("child_added", visReise)
+            Europa.on("child_added", visReise)
+            Midtosten.on("child_added", visReise)
+        }
+
+
+        Amerika.on("child_added", visReise);
+        Europa.on("child_added", visReise);
+        Midtosten.on("child_added", visReise);
+
+
+    </script>
+
+</body>
+</html>
