@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Explore</title>
+    <style>
+
+        * {
+            margin: 0;
+        }
+
+        html {
+            font-size: 16px;
+        }
+        
+        body {
+            min-height: 100vh;
+            background-image:
+            background-size: cover;
+            background-position: center center;
+            transition: 1s;
+        }
+        
+        
+
+        header {
+            opacity: 0.7;
+            height: 4rem;
+            background-color: black;
+
+        }
+
+        #meny {
+            opacity: 0.7;
+            position: absolute;
+            top: 4rem;
+            left: -20rem;
+            width: 20rem;
+            height: calc(100vh - 4rem);
+            background-color: #333333;
+            transition: 0.4s;
+
+        }
+
+        #menyAvPaa {
+            display: none;
+        }
+
+        #menyAvPaa:checked ~ #meny {
+            left: 0;
+        }
+
+        #menyAvPaa:checked ~ #burger > div:nth-child(1) {
+               transform: translateY(15px) rotate(45deg);
+        }
+
+        #menyAvPaa:checked ~ #burger > div:nth-child(2) {
+               opacity: 0;
+        }
+
+        #menyAvPaa:checked ~ #burger > div:nth-child(3) {
+               transform: translateY(-15px) rotate(-45deg);
+        }
+
+
+
+
+
+        #burger {
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            left: 1rem;
+            top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        #burger > div {
+            height: 2px;
+            background-color: whitesmoke;
+            transition: 0.4s;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <header></header>
+    <input type="checkbox" id="menyAvPaa">
+    <label id="burger" for="menyAvPaa">
+        <div></div>
+        <div></div>
+        <div></div>
+    </label>
+    <nav id="meny"></nav>
+
+
+    <script>
+        let bilder = [
+
+        ];
+
+        let bildenummer = 1;
+
+        function ByttBilde() {
+            let bilde = bilder[bildenummer];
+            document.body.style.backgroundImage = "url(" + bilde + ")";
+            bildenummer++;
+
+            if(bildenummer >= bilder.length) {
+                bildenummer = 0;
+            }
+        }
+
+       setInterval(ByttBilde, 2000);
+
+        <img src="../Bilder/beach.jpg" height="768" width="1024"/>
+
+
+
+</body>
+</html>
